@@ -1,18 +1,88 @@
 .container {
-  width: 74%;
-  height: 500px;
+  width: 90%;
+  height: 260px;
   margin: 0;
   position: absolute;
-  top: 50%;
-  left: 13%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  border: 1px solid white;
+  top: 10%;
+  left: 5%;
+  color: white;
+  z-index: -1;
 }
 
 .loginText {
-    color: white;
-    width: 100px;
-    height: 50px;
-    border: 1px solid white
+    width: 100%;
+    height: 220px;
+    text-align: center;
+    z-index: -2;
+}
+
+.headerText {
+  font-family: 'Terminal';
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 5px;
+}
+
+.consoleContainer {
+  width: 90%;
+  height: 460px;
+  position: absolute;
+  top: calc(20% + 160px);
+  left: 5%;
+  color: white;
+}
+
+.console {
+  width: 50%;
+  height: 420px;
+  margin: auto;
+  margin-top: 20px
+}
+
+.consoleLogBox {
+  width: 100%;
+  height: 380px;
+  position: relative;
+  z-index: -1;
+}
+
+.consoleLogs {
+  position: absolute;
+  bottom: 0;
+  left: 8px;
+  height: 380px;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.consoleInputBox {
+  width: 100%;
+  height: 40px;
+  display: flex
+}
+
+.consoleInput {
+  width: 99%;
+  height: 30px;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: 'Terminal';
+  color: white;
+  padding-top: 3px;
+}
+
+.consoleInput:focus {
+  outline: none;
+}
+
+.prefix {
+  font-family: 'Terminal';
+  font-size: 20px;
+  line-height: 38px;
+  font-weight: bold;
 }
