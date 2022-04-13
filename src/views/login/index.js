@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { generateLoginCode } from "../../api/fetchData";
 import "./index.css";
 
 function Login(props) {
   const [authed, setAuthed] = useState(false);
   const [inputDisabled, setInputDisabled] = useState(false)
   const [consoleInputValue, setConoleInputValue] = useState("");
-  const [generateCode, setGenerateCode] = useState("")
   const [flagInput, setFlagInput] = useState([false, ""]);
   const [logArray, setLogArray] = useState([
     "Type 'help' for a list of available commands.",
@@ -61,9 +61,8 @@ function Login(props) {
     if (flagInput[0]) {
       switch(flagInput[1]){
         case "generate":
-          setGenerateCode(newCommand);
           addLog(`> ${newCommand}`);
-          generateNewCode();
+          generateNewCode(newCommand);
           break;
       }
     } else {
@@ -104,9 +103,13 @@ function Login(props) {
     setLogArray(newLogArray);
   }
 
-  function generateNewCode() {
+  function generateNewCode(code) {
     setInputDisabled(true)
-    const code = generateCode;
+    generateLoginCode(code).then(res => {
+      addLog(`New login code: ${res}`);
+      setInputDisabled(false)
+      setFlagInput([false, ""])
+    })
 
   }
 
