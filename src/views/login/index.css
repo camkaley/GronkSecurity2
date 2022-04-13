@@ -1,0 +1,18 @@
+.container {
+  width: 74%;
+  height: 500px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 13%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  border: 1px solid white;
+}
+
+.loginText {
+    color: white;
+    width: 100px;
+    height: 50px;
+    border: 1px solid white
+}
