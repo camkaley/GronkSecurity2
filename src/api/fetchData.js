@@ -9,3 +9,13 @@ export function generateLoginCode(code) {
       });
   });
 }
+
+export function attemptLogin(details) {
+  return new Promise((resolve, reject) => {
+    Axios.post("http://localhost:4000/login", details)
+      .then((res) => resolve(res.data.code))
+      .catch((err) => {
+        reject(err)
+      });
+  });
+}
