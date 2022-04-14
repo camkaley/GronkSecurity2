@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { generateLoginCode, attemptLogin } from "../../api/fetchData";
+import {
+  generateLoginCode,
+  attemptLogin,
+  attemptRegister,
+} from "../../api/fetchData";
 import "./index.css";
 
 function Login(props) {
@@ -18,39 +22,39 @@ function Login(props) {
     {
       syntax: "help",
       description: "List all available commands.",
-      locked: false,
+      locked: "both",
       command: () => help(),
     },
     {
       syntax: "register",
       description: "Register a Gronk Security v2.0 (c) account.",
-      locked: false,
-      command: () => checkCode()
+      locked: "before",
+      command: () => register(),
     },
     {
       syntax: "login",
       description: "Login to user account following input prompts.",
-      locked: false,
+      locked: "before",
       command: () => login(),
     },
     {
       syntax: "generate",
       description: "Generate login codes.",
-      locked: true,
+      locked: "after",
       command: () => generate(),
     },
     {
       syntax: "clear",
       description: "Clears the console.",
-      locked: false,
+      locked: "both",
       command: () => clear(),
     },
     {
       syntax: "logout",
       description: "Logs out of user account.",
-      locked: true,
+      locked: "after",
       command: () => logout(),
-    }
+    },
   ];
 
   function renderConsoleLog() {
@@ -73,10 +77,6 @@ function Login(props) {
     }
   }
 
-  function isLetter(str) {
-    return str.length === 1 && str.match(/[a-z]/i);
-  }
-
   function submitCommand(newCommand) {
     setConoleInputValue("");
 
@@ -88,7 +88,7 @@ function Login(props) {
           break;
         case "username":
           if (newCommand === "") {
-        }
+          }
           setLogArray(["Password:", `> ${newCommand}`].concat(logArray));
           setDetails({ username: newCommand, password: null });
           setFlagInput([true, "password"]);
@@ -96,22 +96,24 @@ function Login(props) {
           break;
         case "password":
           setLogArray(["***********"].concat(logArray));
-          apiLogin({...details, password: newCommand});
+          apiLogin({ ...details, password: newCommand });
           setFlagInput([false, ""]);
           setInputType("text");
           break;
-        case "checkCode":
-          setLogArray([`> ${newCommand}`].concat(logArray))
-          apiCheckCode(newCommand);
+        case "registerCode":
+          setLogArray(["Enter username:", `> ${newCommand}`].concat(logArray));
+          setDetails({ ...details, code: newCommand });
+          setFlagInput([true, "registerUsername"]);
+          break;
         case "registerUsername":
-          setLogArray(["Enter password:", `> ${newCommand}`].concat(logArray))
-          setDetails({...details, username: newCommand})
-          setFlagInput([true, "registerPassword"])
-          setInputType("password")
+          setLogArray(["Enter password:", `> ${newCommand}`].concat(logArray));
+          setDetails({ ...details, username: newCommand });
+          setFlagInput([true, "registerPassword"]);
+          setInputType("password");
           break;
         case "registerPassword":
-          setLogArray(["************"].concat(logArray));
-          apiRegister({...details, password: newCommand})
+          setLogArray(["Loading...", "************"].concat(logArray));
+          apiRegister({ ...details, password: newCommand });
           setFlagInput(false, "");
           setInputType("text");
           break;
@@ -120,10 +122,10 @@ function Login(props) {
       var realCommand = false;
       commands.map((command) => {
         if (newCommand.toLowerCase() === command.syntax) {
-          if (command.locked && authed) {
+          if (command.locked === "after" && authed) {
             realCommand = true;
             command.command();
-          } else if (!command.locked) {
+          } else if (command.locked === "both" || command.locked === "before" && !authed) {
             realCommand = true;
             command.command();
           }
@@ -144,10 +146,10 @@ function Login(props) {
   function help() {
     var logList = ["> help"];
     commands.map((command) => {
-      if (command.locked && authed) {
+      if (command.locked === "after" && authed ) {
         var log = `'${command.syntax}' - ${command.description}`;
         logList = [log].concat(logList);
-      } else if (!command.locked) {
+      } else if(command.locked === "both" || command.locked === "before" && !authed){
         var log = `'${command.syntax}' - ${command.description}`;
         logList = [log].concat(logList);
       }
@@ -206,25 +208,22 @@ function Login(props) {
     setLogArray(["Logged out.", "> logout"].concat(logArray));
   }
 
-  function checkCode() {
-    setFlagInput([true, "checkCode"])
-    setLogArray(["Enter code:", "> register"].concat(logArray))
-  }
-
-  function apiCheckCode() {
-    //Create api and integrate
-  }
-
   function register() {
-    setFlagInput([true, "registerUsername"])
-    setDetails({username: null, password: null, code: "CODE"})
-    setLogArray(["Enter username:", "> register"].concat(logArray))
+    setFlagInput([true, "registerCode"]);
+    setDetails({ username: null, password: null, code: null });
+    setLogArray(["Enter code:", "> register"].concat(logArray));
   }
 
   function apiRegister(details) {
-    console.log("here")
-    console.log(details)
-
+    console.log(details);
+    attemptRegister(details)
+      .then(() => {
+        addLog("User successfully registered");
+      })
+      .catch((error) => {
+        addLog(error
+          );
+      });
   }
 
   function clear() {

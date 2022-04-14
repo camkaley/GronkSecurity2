@@ -19,3 +19,24 @@ export function attemptLogin(details) {
       });
   });
 }
+
+export function attemptRegister(details) {
+  return new Promise((resolve, reject) => {
+    Axios.post("http://localhost:4000/register", details)
+      .then((res) => resolve())
+      .catch((err) => {
+        if(err.response.status === 409){
+          reject("A user with this name already exists, please try a differnt username.")
+        }
+        else if(err.response.status === 404){
+          reject("Incorrect registration code, please try again.")
+        }
+        else if(err.response.status === 400){
+          reject("Invalid username/password format, please only use letters, numbers and symbols")
+        }
+        else {
+          reject("Server error, please try again later")
+        }
+      });
+  });
+}
