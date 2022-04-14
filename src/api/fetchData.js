@@ -2,7 +2,7 @@ import Axios from "axios";
 
 export function generateLoginCode(code) {
   return new Promise((resolve, reject) => {
-    Axios.post("http://localhost:4000/generate", { code: code })
+    Axios.post("http://192.168.0.155:4000/generate", { code: code })
       .then((res) => resolve(res.data.code))
       .catch((err) => {
         reject(err)
@@ -12,7 +12,7 @@ export function generateLoginCode(code) {
 
 export function attemptLogin(details) {
   return new Promise((resolve, reject) => {
-    Axios.post("http://localhost:4000/login", details)
+    Axios.post("http://192.168.0.155:4000/login", details)
       .then((res) => resolve(res.data.code))
       .catch((err) => {
         reject(err)
@@ -22,7 +22,7 @@ export function attemptLogin(details) {
 
 export function attemptRegister(details) {
   return new Promise((resolve, reject) => {
-    Axios.post("http://localhost:4000/register", details)
+    Axios.post("http://192.168.0.155:4000/register", details)
       .then((res) => resolve())
       .catch((err) => {
         if(err.response.status === 409){
