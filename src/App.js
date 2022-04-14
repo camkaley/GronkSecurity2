@@ -1,11 +1,11 @@
-import Login from "./views/login"
+import Home from "./views/home"
+import Test from "./views/3dTest"
 
 function App() {
   return (
     <div className="App">
-      <Login>
-        
-      </Login>
+      {/* <Home/> */}
+      <Test/>
     </div>
   );
 }

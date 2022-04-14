@@ -6,7 +6,7 @@ import {
 } from "../../api/fetchData";
 import "./index.css";
 
-function Login(props) {
+function Home(props) {
   const [authed, setAuthed] = useState(false);
   const [username, setUsername] = useState("");
   const [inputDisabled, setInputDisabled] = useState(false);
@@ -277,4 +277,4 @@ function Login(props) {
     </div>
   );
 }
-export default Login;
+export default Home;
