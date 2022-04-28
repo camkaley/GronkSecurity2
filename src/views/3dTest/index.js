@@ -1,27 +1,17 @@
-import React, { useRef, useState, useMemo } from "react";
+import React, { useRef, useState, useMemo, Suspense } from "react";
 import * as THREE from "three";
-import { Canvas, useFrame, useThree, extend } from "react-three-fiber";
+import { Canvas, useFrame, useThree, extend, useLoader } from "react-three-fiber";
 import five from "../../resources/images/dice.png"
 import { OrbitControls } from "./orbitControls";
+import { GLTFLoader } from './GLTFLoader'
+import house from '../../resources/models/house.glb'
 
 extend({ OrbitControls });
 
-const Box = (props) => {
-  const mesh = useRef();
-  const texture = useMemo(() => new THREE.TextureLoader().load(five), []);
-
-  return (
-    <mesh
-      {...props}
-      ref={mesh}
-    >
-      <boxBufferGeometry args={[1, 1, 1]} />
-      <meshBasicMaterial attach="material" transparent side={THREE.DoubleSide}>
-        <primitive attach="map" object={texture}/>
-      </meshBasicMaterial>
-    </mesh>
-  );
-};
+function House() {
+  const gltf = useLoader(GLTFLoader, house)
+  return <primitive object={gltf.scene} scale={[0.3, 0.3, 0.3]} position={[0, -1, 0]} rotation={[0, 4, 0]}/>
+}
 
 const CameraControls = () => {
     // Get a reference to the Three.js Camera, and the canvas html element.
@@ -39,13 +29,12 @@ const CameraControls = () => {
 
 export default function Test() {
   return (
-    <Canvas style={{width: "500px", height: "500px", border: "3px solid white"}}>
+    <Canvas style={{width: window.innerHeight, height: window.innerHeight, border: "3px solid white", margin: "0 auto"}}>
       <CameraControls/>
       <ambientLight intensity={0.5} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
       <pointLight position={[-10, -10, -10]} />
-      <Box position={[0, 0, 0]} scale={[3, 3, 3]}/>
-      <Box position={[1.1, 0, 0]} scale={[1, 1, 1]} onClick={() => console.log("test")}/>
+      <Suspense><House/></Suspense>
     </Canvas>
   );
 }
