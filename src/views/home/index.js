@@ -5,6 +5,7 @@ import {
   attemptRegister,
 } from "../../api/fetchData";
 import "./index.css";
+import Camera from "../camera"
 
 function Home(props) {
   const [authed, setAuthed] = useState(false);
@@ -13,6 +14,7 @@ function Home(props) {
   const [consoleInputValue, setConoleInputValue] = useState("");
   const [flagInput, setFlagInput] = useState([false, ""]);
   const [details, setDetails] = useState({ username: null, password: null });
+  const [cameraActive, setCameraActive] = useState(false)
   const [inputType, setInputType] = useState("text");
   const [logArray, setLogArray] = useState([
     "Type 'help' for a list of available commands.",
@@ -55,6 +57,12 @@ function Home(props) {
       locked: "after",
       command: () => logout(),
     },
+    {
+      syntax: "camera",
+      description: "Opens Camera.exe",
+      locked: "after",
+      command: () => setCameraActive(true),
+    }
   ];
 
   function renderConsoleLog() {
@@ -230,7 +238,7 @@ function Home(props) {
     setLogArray(["Type 'help' for a list of available commands."]);
   }
 
-  return (
+  return cameraActive ? <Camera onClose={() => setCameraActive(false)}/> : (
     <div>
       <div className="container">
         <div className="loginText">

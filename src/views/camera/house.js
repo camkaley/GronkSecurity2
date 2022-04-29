@@ -10,7 +10,7 @@ extend({ OrbitControls });
 
 function House() {
   const gltf = useLoader(GLTFLoader, house)
-  return <primitive object={gltf.scene} scale={[0.3, 0.3, 0.3]} position={[0, -1, 0]} rotation={[0, 4, 0]}/>
+  return <primitive object={gltf.scene} scale={[0.3, 0.3, 0.3]} position={[0, -0.5, 0]} rotation={[0, 4, 0]}/>
 }
 
 const CameraControls = () => {
@@ -29,7 +29,7 @@ const CameraControls = () => {
 
 export default function Test() {
   return (
-    <Canvas style={{width: window.innerHeight, height: window.innerHeight, border: "3px solid white", margin: "0 auto"}}>
+    <Canvas style={{width: "100%", height: "100%"}}>
       <CameraControls/>
       <ambientLight intensity={0.5} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
