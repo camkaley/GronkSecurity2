@@ -14,7 +14,7 @@ function Home(props) {
   const [consoleInputValue, setConoleInputValue] = useState("");
   const [flagInput, setFlagInput] = useState([false, ""]);
   const [details, setDetails] = useState({ username: null, password: null });
-  const [cameraActive, setCameraActive] = useState(false)
+  const [cameraActive, setCameraActive] = useState(true)
   const [inputType, setInputType] = useState("text");
   const [logArray, setLogArray] = useState([
     "Type 'help' for a list of available commands.",

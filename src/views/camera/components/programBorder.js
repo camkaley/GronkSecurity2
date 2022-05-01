@@ -1,6 +1,15 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 export default function ProgramBorder(props) {
+
+  const [animationActive, setAnimationActive] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimationActive(false)
+    }, 2000)
+  }, [])
+
   return (
     <div
       style={{
@@ -22,7 +31,8 @@ export default function ProgramBorder(props) {
           zIndex: "-1",
           paddingLeft: "3px",
           fontFamily: "Terminal",
-          lineHeight: "26px"
+          lineHeight: "26px",
+          fontWeight: "bold"
         }}
       >{props.title}</div>
       <div
@@ -44,7 +54,7 @@ export default function ProgramBorder(props) {
           color: "black"
         }}
       >X</div>
-      {props.children}
+      {animationActive ? <div style={{fontFamily: "Terminal", color: "white", position: "absolute", top: "50%", textAlign: "center", width: "100%", fontSize: "32px"}}>Loading...</div> : props.children}
       <div
         style={{
           width: "100%",
