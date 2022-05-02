@@ -49,7 +49,7 @@ export default function House(props) {
         scale={[0.1, 0.1, 0.1]}
         position={[1.4, -0.13, -1.1]}
         rotation={[0, 7.14, 0]}
-        onClick={() => openCamera(1)}
+        onClick={() => openCamera(0)}
       />
     );
   }
